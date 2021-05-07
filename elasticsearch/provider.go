@@ -21,13 +21,12 @@ func Provider() *schema.Provider {
 			"elasticsearch_template": resourceTemplate(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{},
-
 		Schema: map[string]*schema.Schema{
 			"url": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("ES_URL", nil),
-				Description: "The URL of the elastcisearch",
+				Description: "The URL of the elasticsearch",
 			},
 			"username": {
 				Type:        schema.TypeString,

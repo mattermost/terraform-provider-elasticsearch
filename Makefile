@@ -6,12 +6,12 @@ BINARY=terraform-provider-${NAME}
 VERSION=0.1
 OS_ARCH=darwin_amd64
 
-default: install
+default: install # Installs the provider in .terraform.d/plugins
 
-build:
+build: # Builds the binary for local testing
 	go build -o ${BINARY}
 
-release:
+release: # Builds the binary for provider
 	GOOS=darwin GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_darwin_amd64
 	GOOS=freebsd GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_freebsd_386
 	GOOS=freebsd GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_freebsd_amd64
@@ -25,17 +25,17 @@ release:
 	GOOS=windows GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_windows_386
 	GOOS=windows GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_windows_amd64
 
-run-elasticsearch:
+run-elasticsearch: # Run the docker-compose to test
 	docker-compose -f docker/docker-compose.yml up -d
 	sleep 10
 
-install: build
+install: build # Builds and creates the necessary dirs to add the plugin
 	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 	mv ${BINARY} ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 
-test:
+test: # Run unit tests
 	go test $(TEST) || exit 1                                                   
 	echo $(TEST) | xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4               
 
-testacc:
+testacc: # Run acceptance tests
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
