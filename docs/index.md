@@ -3,14 +3,14 @@
 page_title: "Provider: Elasticsearch"
 subcategory: ""
 description: |-
-  The provider is used to interact with the Elasticsearch API for certain operations. The endpoint (URL) of the Elastisearch is needed in order to be used.
+  The provider is used to interact with the Elasticsearch API for certain operations. The endpoint (URL) of the Elasticsearch is needed in order to be used.
 ---
 
 # Elasticsearch Provider
 
 
 The provider is used to interact with the Elasticsearch API for certain operations. 
-The endpoint (URL) of the Elastisearch is needed in order to be used.
+The endpoint (URL) of the Elasticsearch is needed in order to be used.
 
 ## Usage
 
