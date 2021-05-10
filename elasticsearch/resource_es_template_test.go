@@ -74,14 +74,16 @@ func testAccCheckIndexTemplateDestroy(s *terraform.State) error {
 		}
 
 		id := rs.Primary.ID
-		req := esapi.IndicesDeleteIndexTemplateRequest{
-			Name:   id,
-			Pretty: true,
+		req := esapi.IndicesDeleteTemplateRequest{
+			Name:       id,
+			Pretty:     true,
+			ErrorTrace: true,
 		}
-		_, err := req.Do(context.TODO(), c)
+		resp, err := req.Do(context.TODO(), c)
 		if err != nil {
 			return err
 		}
+		defer resp.Body.Close()
 	}
 
 	return nil
@@ -116,7 +118,9 @@ func testAccCheckIndexTemplateConfigBasic(name string) string {
 					"number_of_shards": 1
 				},
 				"mapping": {
-					"total_fields": 2000
+					"total_fields": {
+						"limit": 2000
+					}
 				}
 			}
 		}
