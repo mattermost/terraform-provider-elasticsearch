@@ -69,7 +69,9 @@ func resourceTemplateRead(ctx context.Context, d *schema.ResourceData, meta inte
 	if err != nil {
 		return diag.FromErr(errors.Wrap(err, "Failed to read the response"))
 	}
+	//nolint
 	d.Set("name", d.Id())
+	//nolint
 	d.Set("template", string(bodyBytes))
 	return diags
 }
@@ -85,17 +87,18 @@ func resourceTemplateCreate(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	req := esapi.IndicesPutTemplateRequest{
 		Name:   name,
+		Create: esapi.BoolPtr(true),
+		Order:  esapi.IntPtr(0),
 		Pretty: true,
 		Body:   strings.NewReader(template),
 	}
-
 	resp, err := req.Do(ctx, c)
 	if err != nil {
-		return diag.FromErr(errors.Wrapf(err, "Failed to fetch index template with ID: %s", name))
+		return diag.FromErr(errors.Wrapf(err, "Failed to create a template with ID: %s", name))
 	}
 	defer resp.Body.Close()
 
-	d.SetId(d.Get("name").(string))
+	d.SetId(name)
 	return diags
 }
 
@@ -113,7 +116,7 @@ func resourceTemplateDelete(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	resp, err := req.Do(ctx, c)
 	if err != nil {
-		return diag.FromErr(errors.Wrapf(err, "Failed to delete index template with ID: %s", id))
+		return diag.FromErr(errors.Wrapf(err, "Failed to delete template with ID: %s", id))
 	}
 	defer resp.Body.Close()
 
