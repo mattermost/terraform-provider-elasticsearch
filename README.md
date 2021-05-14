@@ -1,3 +1,6 @@
+![master](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=master)
+[![report card](https://img.shields.io/badge/go%20report-A+-brightgreen.svg?style=flat)](https://goreportcard.com/report/github.com/mattermost/terraform-provider-elasticsearch)
+
 # Terraform Provider Elasticsearch
 
 Run the following command to build the provider and place in the terraform plugins in your local machine:
