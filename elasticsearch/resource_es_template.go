@@ -87,7 +87,6 @@ func resourceTemplateCreate(ctx context.Context, d *schema.ResourceData, meta in
 	}
 	req := esapi.IndicesPutTemplateRequest{
 		Name:   name,
-		Create: esapi.BoolPtr(true),
 		Order:  esapi.IntPtr(0),
 		Pretty: true,
 		Body:   strings.NewReader(template),
